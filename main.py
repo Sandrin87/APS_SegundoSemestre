@@ -1,9 +1,12 @@
-###########---LIBRARIES---###########
+###########---BIBLIOTÉCAS---###########
 from geopy import geocoders
 from geopy.geocoders import Nominatim
 
 #####################################
-###########---FUNCTIONS---###########
+#######---VARIAVEIS GLOBAIS---######
+TIPOS_LIXOS_POSSIVEIS = ["Plastico", "Papel", "Papelao", "Vidro", "Residuos Organico", "Metal", "Madeira", "Residuos Perigosos", "Residuos Hospitalar", "Residuos Radioativos"]
+###################################
+###########---FUNÇÕES---###########
 def menu():
     print("--"*10)
     print("-----RECICLAGEM-----")
@@ -34,6 +37,13 @@ def terceiraOpcao():
 def encontraPontosPossiveisColeta(x, y, tipoReciclavel):
     
     localizacaoConvertida = encontraLocalizacaoUsuario(x, y)
+
+    for i in range(len(TIPOS_LIXOS_POSSIVEIS)):
+        if(TIPOS_LIXOS_POSSIVEIS[i].toUpper() == tipoReciclavel.toUpper()):
+            reciclavelAceito = True
+            break
+        else:
+            
 
     return localizacaoConvertida
 
