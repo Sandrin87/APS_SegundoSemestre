@@ -1,5 +1,9 @@
-###########---FUNCTIONS---###########
+###########---LIBRARIES---###########
+from geopy import geocoders
+from geopy.geocoders import Nominatim
 
+#####################################
+###########---FUNCTIONS---###########
 def menu():
     print("--"*10)
     print("-----RECICLAGEM-----")
@@ -13,10 +17,13 @@ def menu():
 def primeiraOpcao():
     print("COORDENADAS DEVEM SER INSERIDAS APENAS EM GRAUS DECIMAIS!! (Ex:. x = 37.7 y = -122.2 \n")
 
-    X = float(input("Digite a coordenada X: "))
-    Y = float(input("Digite a coordenada Y: "))
+    x = float(input("Digite a latitude (X): "))
+    y = float(input("Digite a longitude (Y): "))
+    tipoReciclavel = str(input("Digite o tipo de reciclável desejado: "))
 
-    location = pegaLocalizacao()
+    pontosPossiveis = encontraPontosPossiveisColeta(x, y, tipoReciclavel)
+    
+    print(pontosPossiveis)
 
 def segundaOpcao():
     return
@@ -24,10 +31,18 @@ def segundaOpcao():
 def terceiraOpcao():
     return
 
-def pegaLocalizacao():
-    return
-#####################################
+def encontraPontosPossiveisColeta(x, y, tipoReciclavel):
+    
+    localizacaoConvertida = encontraLocalizacaoUsuario(x, y)
 
+    return localizacaoConvertida
+
+def encontraLocalizacaoUsuario(x, y):
+    
+    localizador = Nominatim(user_agent="LearningGeocode")
+
+    return localizador.reverse(str(y)+","+str(x))
+########################################
 ###########---MAIN PROGRAM---###########
 menu()
 
