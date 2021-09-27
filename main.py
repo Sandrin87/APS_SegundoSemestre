@@ -18,40 +18,48 @@ def menu():
     print("3.")
 
 def primeiraOpcao():
-    print("COORDENADAS DEVEM SER INSERIDAS APENAS EM GRAUS DECIMAIS!! (Ex:. x = 37.7 y = -122.2 \n")
+    print("COORDENADAS DEVEM SER INSERIDAS APENAS EM GRAUS DECIMAIS!! (Ex:. x = 37.7 y = -122.2) \n")
 
-    x = float(input("Digite a latitude (X): "))
-    y = float(input("Digite a longitude (Y): "))
+    x = float(input("Digite a longitude (X): "))
+    y = float(input("Digite a latitude (Y): "))
+
     tipoReciclavel = str(input("Digite o tipo de reciclável desejado: "))
 
-    pontosPossiveis = encontraPontosPossiveisColeta(x, y, tipoReciclavel)
+    if(verificaTipoReciclavel(tipoReciclavel)):
+        pontosPossiveis = encontraPontosPossiveisColeta(x, y, tipoReciclavel)
+        print(pontosPossiveis)
+    else:
+        print("Tipo de reciclável não encontrado... verifique os dados digitados...")
     
-    print(pontosPossiveis)
 
 def segundaOpcao():
     return
 
 def terceiraOpcao():
+    
     return
 
 def encontraPontosPossiveisColeta(x, y, tipoReciclavel):
     
-    localizacaoConvertida = encontraLocalizacaoUsuario(x, y)
+    localizacaoUsuarioConvertida = encontraLocalizacaoUsuario(x, y)
 
-    for i in range(len(TIPOS_LIXOS_POSSIVEIS)):
-        if(TIPOS_LIXOS_POSSIVEIS[i].toUpper() == tipoReciclavel.toUpper()):
-            reciclavelAceito = True
-            break
-        else:
-            
-
-    return localizacaoConvertida
+    return localizacaoUsuarioConvertida
 
 def encontraLocalizacaoUsuario(x, y):
     
     localizador = Nominatim(user_agent="LearningGeocode")
 
     return localizador.reverse(str(y)+","+str(x))
+
+def verificaTipoReciclavel(tipoReciclavel):
+    tipoLixoExistente = False
+
+    for i in range(len(TIPOS_LIXOS_POSSIVEIS)):
+        if(TIPOS_LIXOS_POSSIVEIS[i].upper() == tipoReciclavel.upper()):
+            tipoLixoExistente = True
+            break
+    
+    return tipoLixoExistente
 ########################################
 ###########---MAIN PROGRAM---###########
 menu()
