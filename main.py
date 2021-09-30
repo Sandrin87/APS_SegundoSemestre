@@ -1,4 +1,4 @@
-###########---BIBLIOTÉCAS---###########
+###########---BIBLIOTÉCAS---##########
 from geopy import geocoders
 from geopy.geocoders import Nominatim
 
@@ -41,15 +41,19 @@ def terceiraOpcao():
 
 def encontraPontosPossiveisColeta(x, y, tipoReciclavel):
     
-    localizacaoUsuarioConvertida = encontraLocalizacaoUsuario(x, y)
+    localizacaoUsuarioCompleta = encontraLocalizacaoUsuario(x, y)
 
-    return localizacaoUsuarioConvertida
+    cidadeUsuario = localizacaoUsuarioCompleta['address']['city_district']
+
+
+
+    return cidadeUsuario
 
 def encontraLocalizacaoUsuario(x, y):
     
     localizador = Nominatim(user_agent="LearningGeocode")
 
-    return localizador.reverse(str(y)+","+str(x))
+    return localizador.reverse(str(y)+","+str(x)).raw
 
 def verificaTipoReciclavel(tipoReciclavel):
     tipoLixoExistente = False
