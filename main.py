@@ -1,4 +1,5 @@
 ###########---BIBLIOTÉCAS---##########
+from math import dist
 from geopy import geocoders
 from geopy.geocoders import Nominatim
 
@@ -26,8 +27,8 @@ def primeiraOpcao():
     tipoReciclavel = str(input("Digite o tipo de reciclável desejado: "))
 
     if(verificaTipoReciclavel(tipoReciclavel)):
-        pontosPossiveis = encontraPontosPossiveisColeta(x, y, tipoReciclavel)
-        print(pontosPossiveis)
+        pontoPossivel = encontraPontoPossivelColeta(x, y, tipoReciclavel)
+        print("O local mais adequado para se levar seu lixo é: ",pontoPossivel)
     else:
         print("Tipo de reciclável não encontrado... verifique os dados digitados...")
     
@@ -39,21 +40,32 @@ def terceiraOpcao():
     
     return
 
-def encontraPontosPossiveisColeta(x, y, tipoReciclavel):
-    
-    localizacaoUsuarioCompleta = encontraLocalizacaoUsuario(x, y)
+def encontraPontoPossivelColeta(x, y, tipoReciclavel):
 
-    cidadeUsuario = localizacaoUsuarioCompleta['address']['city_district']
+    pontosColetaDisponiveisX = [-47.20101,-47.10179,-47.09596,-47.07570,-47.05579,-46.97889]
+    pontosColetaDisponiveisY = [-22.78100,-22.81139,-22.84050,-22.84651,-22.90345,-22.93001]
 
+    distanciaUsuarioColeta = []
 
+    for i in range(len(pontosColetaDisponiveisX)):
+        
+        distanciaXY = (((x - pontosColetaDisponiveisX[i])**2 + (y - pontosColetaDisponiveisY[i])**2)**2)
 
-    return cidadeUsuario
+        distanciaUsuarioColeta.append(distanciaXY)
 
-def encontraLocalizacaoUsuario(x, y):
+    menorDistancia = min(distanciaUsuarioColeta)
+
+    posicaoXY = distanciaUsuarioColeta.index(menorDistancia)
+
+    localizacaoMaisProxima = encontraLocalizacao(pontosColetaDisponiveisX[posicaoXY], pontosColetaDisponiveisY[posicaoXY])
+
+    return localizacaoMaisProxima
+
+def encontraLocalizacao(x, y):
     
     localizador = Nominatim(user_agent="LearningGeocode")
 
-    return localizador.reverse(str(y)+","+str(x)).raw
+    return localizador.reverse(str(y)+","+str(x))
 
 def verificaTipoReciclavel(tipoReciclavel):
     tipoLixoExistente = False
